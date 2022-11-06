@@ -1,0 +1,27 @@
+name: GitHub Classroom Workflow
+
+on: [push]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setupcheckout
+#        with:
+#          token: ${{secrets.API_KEY}}
+#          repository: GordonArscott/SECRETS_OCT_V1 #This is where we are going to grab the repo from to us
+#          path: tests
+        run: |
+          curl -H 'Authorization: token ${{ secrets.API_KEY_TEST }}' \
+          -H 'Accept: application/vnd.github.v4.raw' \
+          -O \
+          -L "https://api.github.com/repos/GitGudTesting/AutoGrader/contents/{example_exam.py,test_eval.py}"
+      #checkout secret tests
+      - uses: education/autograding@v1
